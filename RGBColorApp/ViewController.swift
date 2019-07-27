@@ -26,8 +26,6 @@ class ViewController: UIViewController {
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
     
-    // MARK: - Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,28 +36,27 @@ class ViewController: UIViewController {
         addDoneButtonOnKeyboard()
     }
     
-    @objc func doneClicked() {
+    // Action when done button pressed
+    @objc func donePressed() {
         
-        guard redTextField.text?.isEmpty == false else { return }
-        guard greenTextField.text?.isEmpty == false else { return }
-        guard blueTextField.text?.isEmpty == false else { return }
+        addCustomColorForView()
         
         view.endEditing(true)
     }
     
+    // Touching beyond the keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         super.touchesBegan(touches, with: event)
         
-        guard redTextField.text?.isEmpty == false else { return }
-        guard greenTextField.text?.isEmpty == false else { return }
-        guard blueTextField.text?.isEmpty == false else { return }
+        addCustomColorForView()
         
         self.view.endEditing(true)
     }
     
     // MARK: - IBAction
     
+    // Change color value through UISlider
     @IBAction func sliderAction() {
         
         colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value),
@@ -79,6 +76,64 @@ class ViewController: UIViewController {
     
     // MARK: - Private Methods
     
+    // Change color value through UITextField
+    private func addCustomColorForView() {
+        
+        let redTextFieldValue = Float(redTextField.text!)
+        let greenTextFieldValue = Float(greenTextField.text!)
+        let blueTextFieldValue = Float(blueTextField.text!)
+        
+        guard redTextFieldValue != nil else {
+            showAlert(title: "Error!",
+                      message: "Enter a correct number")
+            return
+        }
+        
+        guard greenTextFieldValue != nil else {
+            showAlert(title: "Error!",
+                      message: "Enter a correct number")
+            return
+        }
+        
+        guard blueTextFieldValue != nil else {
+            showAlert(title: "Error!",
+                      message: "Enter a correct number")
+            return
+        }
+        
+        // Сheck the number
+        if redTextFieldValue! > redSlider.maximumValue {
+            showAlert(title: "Error!",
+                      message: "The number exceeds 1, enter the correct number")
+        }
+        
+        if greenTextFieldValue! > redSlider.maximumValue {
+            showAlert(title: "Error!",
+                      message: "The number exceeds 1, enter the correct number")
+        }
+        
+        if blueTextFieldValue! > redSlider.maximumValue {
+            showAlert(title: "Error!",
+                      message: "The number exceeds 1, enter the correct number")
+        }
+        
+        // Assign a custom value
+        redSlider.value = redTextFieldValue!
+        redLabel.text = String(format: "%.2f", redSlider.value)
+        
+        greenSlider.value = greenTextFieldValue!
+        greenLabel.text = String(format: "%.2f", greenSlider.value)
+        
+        blueSlider.value = blueTextFieldValue!
+        blueLabel.text = String(format: "%.2f", blueSlider.value)
+        
+        colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value),
+                                            green: CGFloat(greenSlider.value),
+                                            blue: CGFloat(blueSlider.value),
+                                            alpha: 1)
+    }
+    
+    // Create a done button on keyboard
     private func addDoneButtonOnKeyboard() {
         
         let toolBar = UIToolbar()
@@ -90,13 +145,33 @@ class ViewController: UIViewController {
         
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done,
                                          target: self,
-                                         action: Selector(("doneClicked")))
+                                         action: Selector(("donePressed")))
         
         toolBar.setItems([flexibleSpace, doneButton], animated: false)
+        
+        toolBar.tintColor = .darkGray
         
         redTextField.inputAccessoryView = toolBar
         greenTextField.inputAccessoryView = toolBar
         blueTextField.inputAccessoryView = toolBar
     }
+    
+}
 
+extension ViewController {
+    // Create alert notification
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        let okAction = UIAlertAction(title: "OK",
+                                     style: .default)
+        
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
 }
