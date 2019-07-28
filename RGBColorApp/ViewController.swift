@@ -34,6 +34,10 @@ class ViewController: UIViewController {
         
         // Add done button on keyboard
         addDoneButtonOnKeyboard()
+        
+        self.redTextField.delegate = self
+        self.greenTextField.delegate = self
+        self.blueTextField.delegate = self
     }
     
     // Action when done button pressed
@@ -42,14 +46,6 @@ class ViewController: UIViewController {
         addCustomColorForView()
         
         view.endEditing(true)
-    }
-    
-    // Touching beyond the keyboard
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        addCustomColorForView()
-        
-        self.view.endEditing(true)
     }
     
     // MARK: - IBAction
@@ -150,6 +146,24 @@ class ViewController: UIViewController {
         blueTextField.inputAccessoryView = toolBar
     }
     
+}
+
+extension ViewController: UITextFieldDelegate {
+    
+    // Touching beyond the keyboard
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        redTextField.resignFirstResponder()
+        
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        addCustomColorForView()
+        
+        self.view.endEditing(true);
+    }
 }
 
 extension ViewController {
