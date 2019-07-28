@@ -77,52 +77,48 @@ class ViewController: UIViewController {
     // Change color value through UITextField
     private func addCustomColorForView() {
         
-        let redTextFieldValue = Float(redTextField.text!)
-        let greenTextFieldValue = Float(greenTextField.text!)
-        let blueTextFieldValue = Float(blueTextField.text!)
-        
-        guard redTextFieldValue != nil else {
+        guard let redTextFieldValue = Float(redTextField.text!) else {
             showAlert(title: "Error!",
                       message: "Enter a correct number")
             return
         }
         
-        guard greenTextFieldValue != nil else {
+        guard let greenTextFieldValue = Float(greenTextField.text!) else {
             showAlert(title: "Error!",
                       message: "Enter a correct number")
             return
         }
         
-        guard blueTextFieldValue != nil else {
+        guard let blueTextFieldValue = Float(blueTextField.text!) else {
             showAlert(title: "Error!",
                       message: "Enter a correct number")
             return
         }
         
         // Сheck the number
-        if redTextFieldValue! > redSlider.maximumValue {
+        if redTextFieldValue > redSlider.maximumValue {
             showAlert(title: "Error!",
                       message: "The number exceeds 1, enter the correct number")
         }
         
-        if greenTextFieldValue! > redSlider.maximumValue {
+        if greenTextFieldValue > redSlider.maximumValue {
             showAlert(title: "Error!",
                       message: "The number exceeds 1, enter the correct number")
         }
         
-        if blueTextFieldValue! > redSlider.maximumValue {
+        if blueTextFieldValue > redSlider.maximumValue {
             showAlert(title: "Error!",
                       message: "The number exceeds 1, enter the correct number")
         }
         
         // Assign a custom value
-        redSlider.value = redTextFieldValue!
+        redSlider.value = redTextFieldValue
         redLabel.text = String(format: "%.2f", redSlider.value)
         
-        greenSlider.value = greenTextFieldValue!
+        greenSlider.value = greenTextFieldValue
         greenLabel.text = String(format: "%.2f", greenSlider.value)
         
-        blueSlider.value = blueTextFieldValue!
+        blueSlider.value = blueTextFieldValue
         blueLabel.text = String(format: "%.2f", blueSlider.value)
         
         colorView.backgroundColor = UIColor(red: CGFloat(redSlider.value),
