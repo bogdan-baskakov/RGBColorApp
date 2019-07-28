@@ -47,8 +47,6 @@ class ViewController: UIViewController {
     // Touching beyond the keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        super.touchesBegan(touches, with: event)
-        
         addCustomColorForView()
         
         self.view.endEditing(true)
@@ -159,6 +157,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
+    
     // Create alert notification
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(
